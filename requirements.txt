@@ -1,0 +1,5 @@
+Django<2.0
+git+https://github.com/MongoEngine/django-mongoengine.git#django-mongoengine
+git+https://github.com/umutbozkurt/django-rest-framework-mongoengine#rest_framework_mongoengine
+django-rest-framework
+django-extensions

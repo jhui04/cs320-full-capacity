@@ -1,0 +1,17 @@
+.notTriggered{
+  border-left: 10px solid green !important;
+}
+.triggered{
+  border-left: 10px solid red !important;
+}
+
+.selected {
+  background-color: #CFD8DC !important;
+  color: white;
+}
+
+li:hover {
+  cursor: pointer;
+	background-color: #CFD8DC !important;
+  color: white;
+}

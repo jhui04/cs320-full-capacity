@@ -1,0 +1,41 @@
+<a href="/api/tenant">
+		<b>User ID:</b> {{ user.id }} <b>Tenant ID:</b> {{ tenant_id }}<br />
+</a>
+<a href="/logout">Logout</a><br />
+<a href="/api">API</a><br /><br />
+<b>Devices:</b><br />
+<table border=1>
+	<tr><th>Object ID</th><th>serialNumberInserv</th><th>companyName</th><th>Disk count</th><th>Total capacity</th><th>Authorized tenants</th></tr>
+{% for d in devices %}
+	<tr>
+		<td><a href="/api/devices/{{ d.id }}">{{ d.id }}</a></td>
+		<td>{{ d.serialNumberInserv }}</td>
+		<td>{{ d.system.companyName }}</td>
+		<td>{{ d.disks.total.diskCount }}</td>
+		<td>{{ d.capacity.total.sizeTiB }} TiB</td>
+		<td>{% for t in d.authorized.tenants %}
+			<a href="?tenant_id={{ t }}">{{ t }}</a>{% if not forloop.last %}, {% endif %}
+		{% endfor %}
+		</td>
+	</tr>
+
+{% empty %}<tr><td colspan=6>No devices!</td></tr>
+{% endfor %}
+</table>
+<br />
+<b>Statuses:</b><br />
+<table border=1>
+	<tr><th>Object ID</th><th>User ID</th><th>Criteria</th><th>Current Value</th><th>Criteria Met?</th><th>Device ID</th><th>Active</th></tr>
+{% for s in statuses %}
+	<tr>
+		<td><a href="{{ s.url }}">{{ s.id }}</a></td>
+		<td>{{ s.user_id }}</td>
+		<td>{{ s.criteria }}</td>
+		<td>{{ s.current_value }}</td>
+		<td>{{ s.current_check }}</td>
+		<td>{{ s.device_id }}</td>
+		<td>{{ s.active }}</td>
+	</tr>
+{% empty %}<tr><td colspan=5>No statuses!</td></tr>
+{% endfor %}
+</table>

@@ -1,0 +1,68 @@
+<div *ngIf="server" class="p-4 text-dark" id="overflowTest">
+	<div class="row">
+		<h2 class="display-4 col-9">Device: {{ server.system.fullModel }} ({{ server.serialNumberInserv}})</h2>
+		<p class="col-3" style="text-align: right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#showInfoModal">Show Detailed Info</button></p>
+	</div>
+
+	<div class="minimized info" onclick="$(this).toggleClass('minimized')">
+		<div class="card card-body">
+			<strong>System Info:</strong>
+			<div><b>OS Version:</b> {{ server.system.osVersion }}</div>
+			<div *ngIf="server.system.companyName"><b>Owned by:</b> {{ server.system.companyName }}</div>
+			<div><b>Patches:</b> {{server.system.patches}}</div>
+			<div><b>Model:</b> {{server.system.sp.spModel}} {{server.system.sp.spVersion}}</div>
+			<div *ngIf="server.system.recommended.osVersion != null">
+				<b>Recommended Version:</b> {{ server.system.recommended.osVersion }}
+			</div>
+
+		</div>
+	</div>
+
+	<div class="minimized info" onclick="$(this).toggleClass('minimized')">
+		<div class="card card-body">
+			<strong>Capacity:</strong>
+			<div><b>Total space:</b> {{ server.capacity.total.sizeTiB }} TB</div>
+			<div><b>System Allocated:</b> {{server.capacity.total.systemAllocatedTiB }} TiB</div>
+			<div><b>Free:</b> {{server.capacity.total.freePct }}%</div>
+			<div><b>Virtual Size:</b> {{server.capacity.total.virtualSizeTiB}} TiB</div>
+			<div><b>Allocated Capacity:</b> {{server.capacity.total.allocatedCapacityTiB }} TiB</div>
+			<div><b>Volumes Allocated:</b> {{server.capacity.total.volumesAllocatedTiB }} TiB</div>
+			<div><b>Free:</b> {{server.capacity.total.freeTiB }} TiB</div>
+			<div><b>Other Allocated TiB:</b> {{server.capacity.total.otherAllocatedTiB }} TiB</div>
+		</div>
+	</div>
+
+	<div class="minimized info" onclick="$(this).toggleClass('minimized')">
+		<div class="card card-body">
+			<strong>Disks:</strong>
+			<div><b>Disk Count:</b> {{ server.disks.total.diskCount }}</div>
+			<div *ngIf="server.disks.byType.ssd">
+				<div><b>SSD Count:</b> {{server.disks.byType.ssd.diskCount }}</div>
+				<div><b>SSD State:</b> {{server.disks.byType.ssd.state }}</div>
+			</div>
+			<div *ngIf="server.disks.byType.fc.diskCount">
+				<div><b>FC Count:</b> {{server.disks.byType.fc.diskCount}}</div>
+				<div><b>FC State:</b> {{server.disks.byType.fc.state }}</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="serverInfo"></div>
+</div>
+<div *ngIf="server == null" class="p-4 text-dark">
+	<h2>&larr; Select a device</h2>
+</div>
+
+<div class="modal fade" id="showInfoModal" tabindex="-1" role="dialog" aria-labelledby="showInfoModal" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header p-0 bg-dark">
+				<p class="modal-title w-100 text-center" id="ShowInfoModalLabel">Show Detailed Info</p>
+			</div>
+			<div [innerHTML]="buildServerInfoTree(server, '', 1) | noSanitize" style="color:black;"></div>
+			<div class="modal-footer p-1">
+      	<button type="button" class="btn btn-secondary p-1" data-dismiss="modal">Close</button>
+      </div>
+		</div>
+	</div>
+</div>

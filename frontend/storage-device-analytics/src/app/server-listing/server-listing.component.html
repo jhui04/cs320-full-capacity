@@ -1,0 +1,11 @@
+<ul class="list-group">
+	<li *ngFor="let server of servers" class="text-dark border-bottom border-dark p-4 d-flex bg-light w-100 justify-content-between align-items-center"
+			[class.selected]="server === selectedServer"
+			[class.triggered] = "server.has_triggered == true"
+			[class.notTriggered] = "server.has_triggered == false"
+			id="server-list-{{server.id}}"
+			(click)="onSelect(server)">
+			{{ server.system.fullModel }} ({{ server.serialNumberInserv}})
+			<span class="badge badge-primary badge-pill">{{ server.alerts }}</span>
+	</li>
+</ul>

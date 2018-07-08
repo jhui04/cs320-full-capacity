@@ -1,0 +1,11 @@
+<ul class="list-group">
+	<li *ngFor="let status of filteredStatuses(statuses)" style="height: auto;">
+    <div [class.notTriggered]="status.current_check == false" [class.triggered]="status.current_check == true" class="text-dark border-bottom border-dark p-4 d-flex bg-light w-100 justify-content-between align-items-center">
+  				<span style="float:left;">
+  					<b title="{{status.device_id}}">{{ status.device_name }}:</b>
+  					<span title="{{status.criteria.metric_str}}">{{ status.criteria.metric_pretty }} {{ status.criteria.operation_symbol }} {{ status.criteria.value}}</span> (Current value: {{ status.current_value }})
+  				</span>
+  	  </div>
+    <div style="height:0px"></div>
+	</li>
+</ul>

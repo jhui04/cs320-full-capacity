@@ -1,0 +1,98 @@
+body {
+    padding: 0;
+    margin: 0;
+    line-height: 0;
+}
+
+.tab {
+	float: left;
+	width:65px;
+	margin:0px;
+	margin-right: 5px;
+	background-color: rgb(255, 255, 255);
+	color: rgb(33, 37, 41);
+}
+
+.tab:hover {
+	cursor: pointer;
+	background-color: #CFD8DC;
+  color: black;
+}
+.tab.selectedTab {
+	background-color: #CFD8DC;
+  color: black;
+}
+
+#wrapper {
+	height: 100vh;
+}
+
+#headboard {
+	height: 5vh;
+}
+
+#server-list {
+	height: 95vh;
+	overflow-y: scroll;
+}
+
+#dashboard {
+	height: 40vh;
+}
+
+#status-list {
+	height: 55vh;
+	overflow-y: scroll;
+}
+
+
+/* button:hover {
+  cursor: pointer;
+	background-color: white !important;
+  color: black !important;
+} */
+
+/* Style the tab buttons */
+.tablink {
+    background-color: #555;
+    color: white;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 0px 0px;
+    font-size: 16px;
+    width: 49%;
+    height: 5vh;
+    font-family: Arial, Helvetica, sans-serif;
+    outline: 2px solid black;
+    margin-top: -2px;
+}
+
+.tablink:hover, .tablink.selectedTab{
+  cursor: pointer;
+	background-color: #F9F9F9 !important;
+  color: black !important;
+}
+
+.tabcontent {
+    color: white;
+    display: none;
+    padding: 50px;
+    text-align: center;
+}
+
+
+.server-status-p {
+    line-height: 5vh;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    z-index: 0;
+    font-size: 2vh;
+    pointer-events: none;
+}
+
+span {
+	font-size: 20px;
+}

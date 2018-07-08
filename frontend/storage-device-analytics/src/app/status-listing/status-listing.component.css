@@ -1,0 +1,42 @@
+button:hover {
+    cursor: pointer;
+	/*background-color: #CFD8DC !important;*/
+}
+
+.button {
+	background-color: #FFFFFF;
+    border: 1px solid #000000;
+    color: black;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+.modal-header{
+
+}
+
+.modal-content{
+	position: relative;
+	top: 80px;
+}
+
+.btn {
+	font-family: Arial;
+}
+
+div.triggered {
+  border-left: 10px solid red !important;
+
+}
+
+div.notTriggered {
+	border-left: 10px solid green !important;
+
+}
+
+span {
+	font-size: 20px;
+}

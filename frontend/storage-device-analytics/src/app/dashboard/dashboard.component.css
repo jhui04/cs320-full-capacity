@@ -1,0 +1,112 @@
+#overflowTest {
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+}
+
+
+h2 {
+	font-size: 32px;
+}
+
+ul li{
+	padding: 0;
+	position: absolute;
+	top: 48px;
+	left: 0;
+	width: 150px;
+	box-shadow: none;
+	display: none;
+	opacity: 0;
+	visibility: hidden;
+}
+
+ul li:hover ul{
+	display: block;
+	opacity: 1;
+	visibility: visible;
+}
+
+#gallery-text-left{
+    /* Added */
+    width: 50%;
+
+}
+#gallery-text-right{
+    /* Added */
+    width: 50%;
+}
+
+.button {
+	background-color: #FFFFFF;
+    border: 1px solid #000000;
+    color: black;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+.btn {
+	font-family: Arial;
+}
+
+div.card-body {
+	padding: 0.5rem;
+}
+
+.btn-small {
+	padding: 0 10px;
+  font: inherit;
+}
+
+.minimized {
+	height: 60px;
+	overflow: hidden;
+}
+
+.info {
+	position: relative;
+	cursor: pointer;
+	margin-bottom: 10px
+}
+
+.info:after {
+	content: "show less...";
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	padding: 0px 3px;
+	color: gray;
+}
+.info.minimized:after {
+	content: "show more...";
+}
+
+.info b, .info strong {
+	display: inline;
+}
+
+.info strong {
+	text-decoration: underline;
+}
+
+
+:host ::ng-deep .info-tree {
+  display: none;
+}
+
+:host ::ng-deep #info-tree-1.info-tree {
+  display: block;
+}
+
+:host ::ng-deep .info-tree-link {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+:host ::ng-deep .info-tree-link:after {
+  display: inline;
+  content: " (...)";
+}

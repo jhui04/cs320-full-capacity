@@ -1,0 +1,3 @@
+cd /vagrant/frontend/storage-device-analytics
+echo After it loads, watching for changes -- keep this running, it will take a while to load...
+./node_modules/@angular/cli/bin/ng build -d /static/ --sourcemap=false --build-optimizer=false --watch --poll 1000

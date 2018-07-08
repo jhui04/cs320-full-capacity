@@ -1,0 +1,167 @@
+<div class="border-bottom border-dark bg-dark p-1">
+    <button *ngIf="server != null" type="button" class="btn btn-primary p-1" data-toggle="modal" data-target="#addStatusModal">Add Status</button>
+</div>
+<div *ngIf="server">
+	<ul class="list-group">
+	  <li *ngFor="let status of filteredStatuses(server.id)" style="height: auto;">
+  	  <div [class.notTriggered]="status.current_check == false" [class.triggered]="status.current_check == true" class="text-dark border-bottom border-dark p-4 d-flex bg-light w-100 justify-content-between align-items-center">
+  				<span style="float:left;">
+  					<b title="{{status.criteria.metric_str}}">{{ status.criteria.metric_pretty }} {{ status.criteria.operation_symbol }} {{ status.criteria.value}}</b> (Current value: {{ status.current_value }})
+  				</span>
+  				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editStatusModal" (click)="openEdit(status, editStatusForm)" title="{{status.id}}">Edit</button>
+  	  </div>
+  	</li>
+	</ul>
+	<ul *ngIf="filteredStatuses(server.id).length == 0" class="list-group">
+		<li>
+			<div class="text-dark border-bottom border-dark p-4 d-flex bg-light w-100 justify-content-between align-items-center">
+				No statuses have been created for this device.
+			</div>
+		</li>
+	</ul>
+</div>
+
+<div class="modal fade" id="editStatusModal" tabindex="-1" role="dialog" aria-labelledby="editStatusModal" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header p-0 bg-dark">
+				<p class="modal-title w-100 text-center" id="EditStatusModalLabel">Edit Status</p>
+			</div>
+			<form #editStatusForm="ngForm" (ngSubmit)="editStatus(editStatusForm)">
+				<input type="hidden" name="id" value="" ngModel />
+				<div class="modal-body">
+      		<div class="pb-2">
+      			<label class="text-dark" for="metric">Metric:</label>
+      			<select name="metric" id="metric" ngModel>
+      			  <optgroup label="System Information">
+				    <option selected="selected" value="system,osVersion">OS Version</option>
+				    <option selected="selected" value="system,patches">Patches</option>
+				    <option selected="selected" value="system,recommended,criticalPatches">Recommended Critical Patches</option>
+				    <option selected="selected" value="system,recommended,osVersion">Recommended OS Version</option>
+			      </optgroup>
+				  <optgroup label="Disk Capacity">
+				    <option value="capacity,total,freeTiB">Free Space (TB)</option>
+				    <option value="capacity,total,freePct">Free Space (Percent)</option>
+				    <option value="capacity,total,usedSpaceTiB">Used Space (TB)</option>
+				    <option value="capacity,total,failedCapacityTiB">Failed Capacity (TB)</option>
+				    <option value="capacity,total,dedupeRatio">Dedupe Ratio</option>
+				    <option value="capacity,byType,ssd,lifeLeftPctMin">SSD Life Left (%)</option>
+				  </optgroup>
+				  <optgroup label="Performance">
+				    <option value="performance,portBandwidthData,total,iopsAvg">Average IOPS</option>
+				    <option value="performance,portBandwidthData,total,dataRateKBPSMin">Data Rate (KBPS)</option>
+				  </optgroup>
+				  <optgroup label="Disk Information">
+				    <option value="disks,state">Disk State</option>
+				    <option value="disks,total,diskCountNormal">Normal Disk Count</option>
+				  </optgroup>
+				  <option value="SPECIFY_CUSTOM">Custom</option>
+      			</select><br>
+      		</div>
+      		<div class="pb-2">
+      			<label class="text-dark" for="operator">Operator:</label>
+      			<select name="operator" id="operator" ngModel>
+      				<option value=""></option>
+      				<option value="lt">&lt;</option>
+      				<option value="lte">&le;</option>
+      				<option value="eq">=</option>
+					<option value="neq">!= (not equals)</option>
+      				<option value="gte">&ge;</option>
+      				<option value="gt">&gt;</option>
+      				<option value="within">&lt;&gt; (within)</option>
+      				<option value="exists">?= (exist)</option>
+					<option value="nexist">?!= (not exist)</option>
+      			</select><br>
+      		</div>
+      		<div class="pb-2">
+      			<label class="text-dark" for="value">Value:</label>
+      			<input type="text" name="value" id="value" ngModel><br>
+      		</div>
+      		<div class="pb-2">
+      			<label class="text-dark" for="enabled">Enabled:</label>
+      			<input type="checkbox" name="enabled" id="enabled" ngModel><br>
+      		</div>
+      	</div>
+      	<div class="modal-footer p-1">
+      		<button type="button" class="btn btn-secondary p-1" (click)="deleteStatus(editStatusForm)">Delete</button>
+      		<button type="button" class="btn btn-secondary p-1" data-dismiss="modal">Close</button>
+      		<button type="submit" class="btn btn-primary p-1">Submit</button>
+      	</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="addStatusModal" tabindex="-1" role="dialog" aria-labelledby="addStatusModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header p-0 bg-dark">
+        <p class="modal-title w-100 text-center " id="AddStatusModalLabel">Add Status</p>
+        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button> -->
+      </div>
+      <form #addStatusForm="ngForm" (ngSubmit)="addStatus(addStatusForm)">
+      	<div class="modal-body">
+		    <div class="pb-2">
+		        <label class="text-dark" for="metric">Metric:</label>
+				<select name="metric" id="metric" ngModel>
+				  <optgroup label="System Information">
+				    <option selected="selected" value="system,osVersion">OS Version</option>
+				    <option selected="selected" value="system,patches">Patches</option>
+				    <option selected="selected" value="system,recommended,criticalPatches">Recommended Critical Patches</option>
+				    <option selected="selected" value="system,recommended,osVersion">Recommended OS Version</option>
+			      </optgroup>
+				  <optgroup label="Disk Capacity">
+				    <option value="capacity,total,freeTiB">Free Space (TB)</option>
+				    <option value="capacity,total,freePct">Free Space (Percent)</option>
+				    <option value="capacity,total,usedSpaceTiB">Used Space (TB)</option>
+				    <option value="capacity,total,failedCapacityTiB">Failed Capacity (TB)</option>
+				    <option value="capacity,total,dedupeRatio">Dedupe Ratio</option>
+				    <option value="capacity,byType,ssd,lifeLeftPctMin">SSD Life Left (%)</option>
+				  </optgroup>
+				  <optgroup label="Performance">
+				    <option value="performance,portBandwidthData,total,iopsAvg">Average IOPS</option>
+				    <option value="performance,portBandwidthData,total,dataRateKBPSMin">Data Rate (KBPS)</option>
+				  </optgroup>
+				  <optgroup label="Disk Information">
+				    <option value="disks,state">Disk State</option>
+				    <option value="disks,total,diskCountNormal">Normal Disk Count</option>
+				  </optgroup>
+				  <option value="SPECIFY_CUSTOM">Custom</option>
+			    </select><br>
+		    </div>
+		    <div class="pb-2">
+			    <label class="text-dark" for="operator">Operator:</label>
+			    <select name="operator" id="operator" ngModel>
+				  <option value="lt">&lt;</option>
+      			  <option value="lte">&le;</option>
+      			  <option value="eq">=</option>
+				  <option value="neq">!= (not equals)</option>
+      			  <option value="gte">&ge;</option>
+      			  <option value="gt">&gt;</option>
+      			  <option value="within">&lt;&gt; (within)</option>
+      			  <option value="exists">?= (exist)</option>
+				  <option value="nexist">?!= (not exist)</option>
+			    </select><br>
+		    </div>
+		    <div class="pb-2">
+			  <label class="text-dark" for="value">Value:</label>
+			  <input type="text" name="value" id="value" ngModel><br>
+		    </div>
+      		<hr />
+      		<div class="pb-2">
+      			<label class="text-dark" for="default-statuses">Fill with default status:</label>
+      			<select name="default-statuses" id="default-statuses">
+      				<option value="" selected></option>
+      			</select>
+      		</div>
+        </div>
+        <div class="modal-footer p-1">
+          <button type="button" class="btn btn-secondary p-1" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary p-1" #submitBtn>Submit</button>
+        </div>
+	  </form>
+    </div>
+  </div>
+</div>

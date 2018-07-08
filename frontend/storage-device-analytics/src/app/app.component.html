@@ -1,0 +1,34 @@
+<div id="wrapper">
+	<div id="headboard" class="text-white bg-dark text-center p-0">
+		<div class = "w-25">
+			<button type = "button" class="tablink bg-dark text-white" [class.selectedTab]="selectedTab === 'servers'" (click)="onSelectTab('servers')" id="defaultOpen">Devices</button>
+			<button type = "button" class="tablink bg-dark text-white" [class.selectedTab]="selectedTab === 'alerts'" (click)="onSelectTab('alerts')">Alerts</button>
+		</div>
+
+		<!-- <p [class.selectedTab]="selectedTab === 'servers'" (click)="onSelectTab('servers')" class="tab selectedTab">Servers</p>
+		<p [class.selectedTab]="selectedTab === 'alerts'" (click)="onSelectTab('alerts')" class="tab">Alerts</p> -->
+
+
+		<p class="m-0 align-middle server-status-p"> Full Capacity Storage </p>
+		<app-user-header (tenantEvent)="receiveTenant($event)"></app-user-header>
+	</div>
+
+	<div *ngIf="selectedTab === 'servers'" class="d-flex">
+		<div id="server-list" class="w-25 border-right border-dark">
+			<app-server-listing (messageEvent)="receiveMessage($event)"></app-server-listing>
+		</div>
+		<div class="w-100">
+			<div id="dashboard" class="w-100 bg-light border-bottom border-dark text-light">
+				<app-dashboard [server]="message"></app-dashboard>
+			</div>
+			<div id="status-list" class="w-100 bg-muted text-light">
+				<app-status-listing [server]="message" [tenant]="tenant"></app-status-listing>
+			</div>
+		</div>
+	</div>
+	<div *ngIf="selectedTab === 'alerts'" class="d-flex">
+			<div id="alerts-list" class="w-100 bg-muted text-light">
+				<app-alert-listing [server]="message"></app-alert-listing>
+			</div>
+	</div>
+</div>

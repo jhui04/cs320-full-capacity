@@ -1,0 +1,7 @@
+<div class="user-header" *ngIf="tenant && tenant.user">
+	<b title="{{tenant.user_id}}">{{tenant.user.username}}</b> ({{tenant.tenant_id}})
+	&nbsp; &nbsp;
+		<a class="btn btn-primary" href = "/logout">
+			Logout
+		</a>
+</div>
